@@ -6,9 +6,18 @@ setup(
     name='nostr_neo4j',
     version='0.1',
     packages=find_packages(),
+    install_requires=[
+        # Your package dependencies
+    ],
+    extras_require={
+        'dev': [
+            'pytest',
+            # Other development dependencies
+        ],
+    },
     description='Nostr Neo4j Library',
     author='VincenzoImp',
-    author_email='tuo@email.com',
+    author_email='',
     url='https://github.com/VincenzoImp',
     classifiers=[
         'Programming Language :: Python :: 3',
