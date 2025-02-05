@@ -1,8 +1,7 @@
 from neo4j import GraphDatabase
 import json
-import UserMetadata
-import User
-import Event
+from .User import User
+from .Event import Event
 
 class NostrNeo4j:
     
@@ -99,7 +98,7 @@ class NostrNeo4j:
         assert isinstance(event, Event), f"event must be an Event object, not {type(event)}"
         assert event.kind == 0, f"event kind must be 0, not {event.kind}"
         user = self.get_user(event.pubkey)
-        new_metadata = UserMetadata(event.created_at, json.loads(event.content))
+        new_metadata = User.Metadata(event.created_at, json.loads(event.content))
         if user is None:
             user = User(event.pubkey)
         if user.first_event_timestamp is None or user.first_event_timestamp > new_metadata.timestamp:

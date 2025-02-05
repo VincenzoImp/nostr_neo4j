@@ -60,7 +60,7 @@ class Event:
         >>> tags = [["tag1", "tag2"]]
         >>> event = Event(id, created_at, kind, pubkey, sig, content, tags)
         >>> event
-        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[['tag1', 'tag2']])
+        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
 
         Returns:
         - str, string representation of the Event object
@@ -81,7 +81,7 @@ class Event:
         >>> tags = [["tag1", "tag2"]]
         >>> event = Event(id, created_at, kind, pubkey, sig, content, tags)
         >>> event.to_dict()
-        {'id': '0x123', 'created_at': 1612137600, 'kind': 0, 'pubkey': '0x123', 'sig': '0x123', 'content': 'content', 'tags': [['tag1', 'tag2']]}
+        {"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]]}
 
         Returns:
         - dict, dictionary representation of the Event object
@@ -105,10 +105,10 @@ class Event:
         - data: dict, dictionary with the keys "id", "created_at", "kind", "pubkey", "sig", "content", "tags"
 
         Example:
-        >>> data = {'id': '0x123', 'created_at': 1612137600, 'kind': 0, 'pubkey': '0x123', 'sig': '0x123', 'content': 'content', 'tags': [['tag1', 'tag2']]}
+        >>> data = {"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]]}
         >>> event = Event.from_dict(data)
         >>> event
-        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[['tag1', 'tag2']])
+        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
 
         Returns:
         - event: Event, Event object
@@ -127,7 +127,7 @@ class Event:
         >>> json_str = '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
         >>> event = Event.from_json(json_str)
         >>> event
-        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[['tag1', 'tag2']])
+        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
 
         Returns:
         - event: Event, Event object

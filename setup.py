@@ -3,26 +3,26 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='nostr_neo4j',
-    version='0.1',
+    name="nostr_neo4j",
+    version="0.1",
     packages=find_packages(),
     install_requires=[
-        # Your package dependencies
+        "neo4j"
     ],
     extras_require={
-        'dev': [
-            'pytest',
+        "dev": [
+            "pytest",
             # Other development dependencies
         ],
     },
-    description='Nostr Neo4j Library',
-    author='VincenzoImp',
-    author_email='',
-    url='https://github.com/VincenzoImp',
+    description="Nostr Neo4j Library",
+    author="VincenzoImp",
+    author_email="",
+    url="https://github.com/VincenzoImp",
     classifiers=[
-        'Programming Language :: Python :: 3',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )
