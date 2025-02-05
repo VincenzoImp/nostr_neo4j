@@ -1,7 +1,7 @@
 from neo4j import GraphDatabase
 import json
-from User import User
-from Event import Event
+from .User import User
+from .Event import Event
 
 class NostrNeo4j:
     
