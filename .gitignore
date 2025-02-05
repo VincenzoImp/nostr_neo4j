@@ -1,0 +1,3 @@
+venv
+nostr_neo4j/__pycache__
+tests/__pycache__
