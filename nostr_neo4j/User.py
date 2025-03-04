@@ -1,59 +1,117 @@
 # nostr_neo4j/User.py
 
-import UserMetadata
-
 class User:
     """
     Class to represent a user in the Neo4j database.
 
     Attributes:
     - pubkey: str, public key of the user
-    - metadata: UserMetadata, metadata of the user
-    - timestamp_firstEvent: int, timestamp of the first event of the user
 
     Methods:
     - __init__: initialize the User object
     - __repr__: return the representation of the User object
     """
 
-    def __init__(self, pubkey: str, metadata: UserMetadata = None, timestamp_firstEvent: int = None) -> None:
+    def __init__(self, pubkey: str) -> None:
         """
         Initialize the User object.
 
         Parameters:
         - pubkey: str, public key of the user
-        - metadata: UserMetadata, metadata of the user
-        - timestamp_firstEvent: int, timestamp of the first event of the user
 
         Example:
-        >>> user = User("0x123", UserMetadata(1612137600, {"name": "Alice"}), 1612137600)
+        >>> user = User("0x123")
         >>> user
-        User(pubkey="0x123", metadata=UserMetadata(timestamp=1612137600, data={"name": "Alice"}), timestamp_firstEvent=1612137600)
+        User(pubkey="0x123")
 
         Returns:
         - user: User, user object
         """
         assert isinstance(pubkey, str), f"pubkey must be a string, not {type(pubkey)}"
-        if metadata is not None:
-            assert isinstance(metadata, UserMetadata), f"metadata must be a UserMetadata object, not {type(metadata)}"
-        else:
-            metadata = UserMetadata()
-        if timestamp_firstEvent is not None:
-            assert isinstance(timestamp_firstEvent, int), f"timestamp_firstEvent must be an integer, not {type(timestamp_firstEvent)}"
         self.pubkey = pubkey
-        self.metadata = metadata
-        self.timestamp_firstEvent = timestamp_firstEvent
 
     def __repr__(self) -> str:
         """
         Return the representation of the User object.
 
         Example:
-        >>> user = User("0x123", UserMetadata(1612137600, {"name": "Alice"}), 1612137600)
+        >>> user = User("0x123")
         >>> user
-        User(pubkey="0x123", metadata=UserMetadata(timestamp=1612137600, data={"name": "Alice"}), timestamp_firstEvent=1612137600)
+        User(pubkey="0x123")
 
         Returns:
         - str, representation of the User object
         """
-        return f"User(pubkey={self.pubkey}, metadata={self.metadata}, timestamp_firstEvent={self.timestamp_firstEvent})"
+        return f"User(pubkey={self.pubkey})"
+    
+    # def __eq__(self, other: 'User') -> bool:
+    #     """
+    #     Check if two User objects are equal.
+
+    #     Parameters:
+    #     - other: User, other User object to compare
+
+    #     Example:
+    #     >>> user1 = User("0x123")
+    #     >>> user2 = User("0x123")
+    #     >>> user1 == user2
+    #     True
+
+    #     Returns:
+    #     - bool, True if the User objects are equal, False otherwise
+    #     """
+    #     assert isinstance(other, User), f"other must be a User object, not {type(other)}"
+    #     return self.pubkey == other.pubkey
+    
+    # def __ne__(self, other: 'User') -> bool:
+    #     """
+    #     Check if two User objects are not equal.
+
+    #     Parameters:
+    #     - other: User, other User object to compare
+
+    #     Example:
+    #     >>> user1 = User("0x123")
+    #     >>> user2 = User("0x456")
+    #     >>> user1 != user2
+    #     True
+
+    #     Returns:
+    #     - bool, True if the User objects are not equal, False otherwise
+    #     """
+    #     assert isinstance(other, User), f"other must be a User object, not {type(other)}"
+    #     return self.pubkey != other.pubkey
+    
+    @staticmethod
+    def from_dict(data: dict) -> 'User':
+        """
+        Create a User object from a dictionary.
+
+        Parameters:
+        - data: dict, dictionary containing the user data
+
+        Example:
+        >>> data = {"pubkey": "0x123"}
+        >>> user = User.from_dict(data)
+        >>> user
+        User(pubkey="0x123")
+
+        Returns:
+        - user: User, user object
+        """
+        assert isinstance(data, dict), f"data must be a dict, not {type(data)}"
+        return User(data["pubkey"])
+    
+    def to_dict(self) -> dict:
+        """
+        Return the User object as a dictionary.
+
+        Example:
+        >>> user = User("0x123")
+        >>> user.to_dict()
+        {"pubkey": "0x123"}
+
+        Returns:
+        - dict, dictionary representation of the User object
+        """
+        return {"pubkey": self.pubkey}

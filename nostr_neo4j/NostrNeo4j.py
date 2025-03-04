@@ -1,7 +1,6 @@
 # nostr_neo4j/NostrNeo4j.py
 
 from neo4j import GraphDatabase
-import json
 from .User import User
 from .Event import Event
 
@@ -37,7 +36,7 @@ class NostrNeo4j:
         Example:
         >>> db.close()
         """
-        self.driver.close()    
+        self.driver.close()
     
     def __set_user(self, user: User) -> None:
         """
@@ -52,12 +51,11 @@ class NostrNeo4j:
         """
         assert isinstance(user, User), f"user must be a User object, not {type(user)}"
         with self.driver.session() as session:
-            session.run(
-                "MERGE (u:User {pubkey: $pubkey}) "
-                "SET u += $props",
-                pubkey=user.pubkey,
-                props=user.to_dict()
-            )
+            query = """
+            MERGE (u:User {pubkey: $pubkey})
+            SET u.pubkey = $pubkey
+            """
+            session.run(query, pubkey=user.pubkey)
 
     def get_user(self, pubkey: str) -> User:
         """
@@ -76,15 +74,15 @@ class NostrNeo4j:
         """
         assert isinstance(pubkey, str), f"pubkey must be a string, not {type(pubkey)}"
         with self.driver.session() as session:
-            result = session.run(
-                "MATCH (u:User {pubkey: $pubkey})"
-                "RETURN u",
-                pubkey=pubkey
-            )
+            query = """
+            MATCH (u:User {pubkey: $pubkey})
+            RETURN u.pubkey AS pubkey
+            """
+            result = session.run(query, pubkey=pubkey)
             record = result.single()
-        if record is None:
+            if record:
+                return User(record["pubkey"])
             return None
-        return User.from_dict(record["u"])
     
     def __add_event_kind_0(self, event: Event) -> None:
         """
@@ -99,15 +97,9 @@ class NostrNeo4j:
         """
         assert isinstance(event, Event), f"event must be an Event object, not {type(event)}"
         assert event.kind == 0, f"event kind must be 0, not {event.kind}"
-        user = self.get_user(event.pubkey)
-        new_metadata = User.Metadata(event.created_at, json.loads(event.content))
-        if user is None:
-            user = User(event.pubkey)
-        if user.first_event_timestamp is None or user.first_event_timestamp > new_metadata.timestamp:
-            user.first_event_timestamp = new_metadata.timestamp
-        if user.metadata is None or user.metadata.timestamp < new_metadata.timestamp:
-            user.metadata = new_metadata
-        self.__set_user(user)
+        with self.driver.session() as session:
+            # TODO: Implement
+            pass
 
     def add_event(self, event: Event) -> None:
         """

@@ -1,7 +1,6 @@
 # nostr_neo4j/Event.py
 
 from typing import List
-import json
 
 class Event:
 
@@ -68,7 +67,26 @@ class Event:
         - str, string representation of the Event object
         """
         return f"Event(id={self.id}, created_at={self.created_at}, kind={self.kind}, pubkey={self.pubkey}, sig={self.sig}, content={self.content}, tags={self.tags})"
- 
+
+    @staticmethod
+    def from_dict(data: dict) -> "Event":
+        """
+        Create an Event object from a dictionary.
+        
+        Parameters:
+        - data: dict, dictionary with the keys "id", "created_at", "kind", "pubkey", "sig", "content", "tags"
+
+        Example:
+        >>> data = {"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]]}
+        >>> event = Event.from_dict(data)
+        >>> event
+        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
+
+        Returns:
+        - event: Event, Event object
+        """
+        return Event(data["id"], data["created_at"], data["kind"], data["pubkey"], data["sig"], data["content"], data["tags"])
+    
     def to_dict(self) -> dict:
         """
         Return a dictionary representation of the Event object.
@@ -97,63 +115,3 @@ class Event:
             "content": self.content,
             "tags": self.tags
         }
-    
-    @staticmethod
-    def from_dict(data: dict) -> "Event":
-        """
-        Create an Event object from a dictionary.
-        
-        Parameters:
-        - data: dict, dictionary with the keys "id", "created_at", "kind", "pubkey", "sig", "content", "tags"
-
-        Example:
-        >>> data = {"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]]}
-        >>> event = Event.from_dict(data)
-        >>> event
-        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
-
-        Returns:
-        - event: Event, Event object
-        """
-        return Event(data["id"], data["created_at"], data["kind"], data["pubkey"], data["sig"], data["content"], data["tags"])
-    
-    # @staticmethod
-    # def from_json(json_str: str) -> "Event":
-    #     """
-    #     Create an Event object from a JSON string.
-
-    #     Parameters:
-    #     - json_str: str, JSON string with the keys "id", "created_at", "kind", "pubkey", "sig", "content", "tags"
-
-    #     Example:
-    #     >>> json_str = '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
-    #     >>> event = Event.from_json(json_str)
-    #     >>> event
-    #     Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
-
-    #     Returns:
-    #     - event: Event, Event object
-    #     """
-    #     data = json.loads(json_str)
-    #     return Event(data["id"], data["created_at"], data["kind"], data["pubkey"], data["sig"], data["content"], data["tags"])
-    
-    # def to_json(self) -> str:
-    #     """
-    #     Return a JSON representation of the Event object.
-
-    #     Example:
-    #     >>> id = "0x123"
-    #     >>> created_at = 1612137600
-    #     >>> kind = 0
-    #     >>> pubkey = "0x123"
-    #     >>> sig = "0x123"
-    #     >>> content = "content"
-    #     >>> tags = [["tag1", "tag2"]]
-    #     >>> event = Event(id, created_at, kind, pubkey, sig, content, tags)
-    #     >>> event.to_json()
-    #     '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
-
-    #     Returns:
-    #     - str, JSON representation of the Event object
-    #     """
-    #     return json.dumps(self.to_dict())

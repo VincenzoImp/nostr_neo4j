@@ -10,9 +10,9 @@ class UserMetadata:
 
     Methods:
     - __init__: initialize the UserMetadata object
-    - to_dict: return a dictionary representation of the metadata
-    - from_dict: return a UserMetadata object from a dictionary representation
     - __repr__: return the representation of the UserMetadata object
+    - from_dict: return a UserMetadata object from a dictionary representation
+    - to_dict: return a dictionary representation of the metadata
     """
 
     def __init__(self, timestamp: int = None, data: dict = None) -> None:
@@ -35,20 +35,20 @@ class UserMetadata:
         self.timestamp = timestamp
         self.data = data
 
-    def to_dict(self) -> dict:
+    def __repr__(self) -> str:
         """
-        Return a dictionary representation of the metadata.
+        Return the representation of the UserMetadata object.
 
         Example:
         >>> metadata = UserMetadata(1612137600, {"name": "Alice"})
-        >>> metadata.to_dict()
-        {"timestamp": 1612137600, "data": {"name": "Alice"}}
+        >>> metadata
+        UserMetadata(timestamp=1612137600, data={"name": "Alice"})
 
         Returns:
-        - metadata: dict, dictionary representation of the metadata
+        - representation: str, representation of the UserMetadata object
         """
-        return {"timestamp": self.timestamp, "data": self.data}
-
+        return f"UserMetadata(timestamp={self.timestamp}, data={self.data})"
+    
     @staticmethod
     def from_dict(metadata: dict) -> "UserMetadata":
         """
@@ -70,17 +70,17 @@ class UserMetadata:
         assert "timestamp" in metadata, "Timestamp must be in the metadata"
         assert "data" in metadata, "Data must be in the metadata"
         return UserMetadata(metadata["timestamp"], metadata["data"])
-
-    def __repr__(self) -> str:
+    
+    def to_dict(self) -> dict:
         """
-        Return the representation of the UserMetadata object.
+        Return a dictionary representation of the metadata.
 
         Example:
         >>> metadata = UserMetadata(1612137600, {"name": "Alice"})
-        >>> metadata
-        UserMetadata(timestamp=1612137600, data={"name": "Alice"})
+        >>> metadata.to_dict()
+        {"timestamp": 1612137600, "data": {"name": "Alice"}}
 
         Returns:
-        - representation: str, representation of the UserMetadata object
+        - metadata: dict, dictionary representation of the metadata
         """
-        return f"UserMetadata(timestamp={self.timestamp}, data={self.data})"
+        return {"timestamp": self.timestamp, "data": self.data}
