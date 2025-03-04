@@ -12,7 +12,6 @@ setup(
     extras_require={
         "dev": [
             "pytest",
-            # Other development dependencies
         ],
     },
     description="Nostr Neo4j Library",

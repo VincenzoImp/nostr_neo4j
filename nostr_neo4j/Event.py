@@ -1,3 +1,5 @@
+# nostr_neo4j/Event.py
+
 from typing import List
 import json
 
@@ -115,43 +117,43 @@ class Event:
         """
         return Event(data["id"], data["created_at"], data["kind"], data["pubkey"], data["sig"], data["content"], data["tags"])
     
-    @staticmethod
-    def from_json(json_str: str) -> "Event":
-        """
-        Create an Event object from a JSON string.
+    # @staticmethod
+    # def from_json(json_str: str) -> "Event":
+    #     """
+    #     Create an Event object from a JSON string.
 
-        Parameters:
-        - json_str: str, JSON string with the keys "id", "created_at", "kind", "pubkey", "sig", "content", "tags"
+    #     Parameters:
+    #     - json_str: str, JSON string with the keys "id", "created_at", "kind", "pubkey", "sig", "content", "tags"
 
-        Example:
-        >>> json_str = '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
-        >>> event = Event.from_json(json_str)
-        >>> event
-        Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
+    #     Example:
+    #     >>> json_str = '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
+    #     >>> event = Event.from_json(json_str)
+    #     >>> event
+    #     Event(id=0x123, created_at=1612137600, kind=0, pubkey=0x123, sig=0x123, content=content, tags=[["tag1", "tag2"]])
 
-        Returns:
-        - event: Event, Event object
-        """
-        data = json.loads(json_str)
-        return Event(data["id"], data["created_at"], data["kind"], data["pubkey"], data["sig"], data["content"], data["tags"])
+    #     Returns:
+    #     - event: Event, Event object
+    #     """
+    #     data = json.loads(json_str)
+    #     return Event(data["id"], data["created_at"], data["kind"], data["pubkey"], data["sig"], data["content"], data["tags"])
     
-    def to_json(self) -> str:
-        """
-        Return a JSON representation of the Event object.
+    # def to_json(self) -> str:
+    #     """
+    #     Return a JSON representation of the Event object.
 
-        Example:
-        >>> id = "0x123"
-        >>> created_at = 1612137600
-        >>> kind = 0
-        >>> pubkey = "0x123"
-        >>> sig = "0x123"
-        >>> content = "content"
-        >>> tags = [["tag1", "tag2"]]
-        >>> event = Event(id, created_at, kind, pubkey, sig, content, tags)
-        >>> event.to_json()
-        '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
+    #     Example:
+    #     >>> id = "0x123"
+    #     >>> created_at = 1612137600
+    #     >>> kind = 0
+    #     >>> pubkey = "0x123"
+    #     >>> sig = "0x123"
+    #     >>> content = "content"
+    #     >>> tags = [["tag1", "tag2"]]
+    #     >>> event = Event(id, created_at, kind, pubkey, sig, content, tags)
+    #     >>> event.to_json()
+    #     '{"id": "0x123", "created_at": 1612137600, "kind": 0, "pubkey": "0x123", "sig": "0x123", "content": "content", "tags": [["tag1", "tag2"]}'
 
-        Returns:
-        - str, JSON representation of the Event object
-        """
-        return json.dumps(self.to_dict())
+    #     Returns:
+    #     - str, JSON representation of the Event object
+    #     """
+    #     return json.dumps(self.to_dict())

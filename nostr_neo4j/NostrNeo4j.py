@@ -1,3 +1,5 @@
+# nostr_neo4j/NostrNeo4j.py
+
 from neo4j import GraphDatabase
 import json
 from .User import User
@@ -75,7 +77,7 @@ class NostrNeo4j:
         assert isinstance(pubkey, str), f"pubkey must be a string, not {type(pubkey)}"
         with self.driver.session() as session:
             result = session.run(
-                "MATCH (u:User {pubkey: $pubkey}) "
+                "MATCH (u:User {pubkey: $pubkey})"
                 "RETURN u",
                 pubkey=pubkey
             )

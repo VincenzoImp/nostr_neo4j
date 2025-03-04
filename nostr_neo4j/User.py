@@ -1,3 +1,5 @@
+# nostr_neo4j/User.py
+
 class User:
     """
     Class to represent a user in the Neo4j database.
@@ -12,27 +14,7 @@ class User:
     - __repr__: return the representation of the User object
     """
 
-    def __init__(self, pubkey: str) -> None:
-        """
-        Initialize the User object.
-
-        Parameters:
-        - pubkey: str, public key of the user
-
-        Example:
-        >>> user = User("0x123")
-        >>> user
-        User(pubkey="0x123", metadata=None, timestamp_firstEvent=None)
-
-        Returns:    
-        - user: User, user object
-        """
-        assert isinstance(pubkey, str), f"pubkey must be a string, not {type(pubkey)}"
-        self.pubkey = pubkey
-        self.metadata = None
-        self.timestamp_firstEvent = None
-
-    def __init__(self, pubkey: str, metadata: "User.Metadata", timestamp_firstEvent: int) -> None:
+    def __init__(self, pubkey: str, metadata: "User.Metadata" = None, timestamp_firstEvent: int = None) -> None:
         """
         Initialize the User object.
 
@@ -50,8 +32,12 @@ class User:
         - user: User, user object
         """
         assert isinstance(pubkey, str), f"pubkey must be a string, not {type(pubkey)}"
-        assert isinstance(metadata, User.Metadata), f"metadata must be a User.Metadata object, not {type(metadata)}"
-        assert isinstance(timestamp_firstEvent, int), f"timestamp_firstEvent must be an integer, not {type(timestamp_firstEvent)}"
+        if metadata is not None:
+            assert isinstance(metadata, User.Metadata), f"metadata must be a User.Metadata object, not {type(metadata)}"
+        else:
+            metadata = User.Metadata()
+        if timestamp_firstEvent is not None:
+            assert isinstance(timestamp_firstEvent, int), f"timestamp_firstEvent must be an integer, not {type(timestamp_firstEvent)}"
         self.pubkey = pubkey
         self.metadata = metadata
         self.timestamp_firstEvent = timestamp_firstEvent
@@ -84,24 +70,8 @@ class User:
         - from_dict: return a User.Metadata object from a dictionary representation
         - __repr__: return the representation of the User.Metadata object
         """
-
-        def __init__(self) -> None:
-            """
-            Initialize the User.Metadata object.
-
-            Parameters:
-            - timestamp: int, timestamp of the metadata
-            - data: dict, metadata of the user
-
-            Example:
-            >>> metadata = User.Metadata()
-            >>> metadata
-            User.Metadata(timestamp=None, data=None)
-            """
-            self.timestamp = None
-            self.data = None
             
-        def __init__(self, timestamp: int, data: dict) -> None:
+        def __init__(self, timestamp: int = None, data: dict = None) -> None:
             """
             Initialize the User.Metadata object.
 
@@ -112,10 +82,12 @@ class User:
             Example:
             >>> metadata = User.Metadata(1612137600, {"name": "Alice"})
             """
-            assert isinstance(timestamp, int), f"timestamp must be an integer, not {type(timestamp)}"
-            assert isinstance(data, dict), f"data must be a dictionary, not {type(data)}"
-            for key in data:
-                assert isinstance(key, str), "Keys in data must be strings"
+            if timestamp is not None:
+                assert isinstance(timestamp, int), f"timestamp must be an integer, not {type(timestamp)}"
+            if data is not None:
+                assert isinstance(data, dict), f"data must be a dictionary, not {type(data)}"
+                for key in data.keys():
+                    assert isinstance(key, str), "Keys in data must be strings"
             self.timestamp = timestamp
             self.data = data
 
