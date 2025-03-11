@@ -98,8 +98,11 @@ class NostrNeo4j:
         assert isinstance(event, Event), f"event must be an Event object, not {type(event)}"
         assert event.kind == 0, f"event kind must be 0, not {event.kind}"
         with self.driver.session() as session:
+            user = self.get_user(event.pubkey)
+            if not user:
+                user = User(event.pubkey)
+                self.__set_user(user)
             # TODO: Implement
-            pass
 
     def add_event(self, event: Event) -> None:
         """
