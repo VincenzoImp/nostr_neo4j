@@ -5,6 +5,20 @@ from .User import User
 from .Event import Event
 
 class NostrNeo4j:
+    """
+    Class to interact with the Neo4j database.
+
+    Attributes:
+    - driver: GraphDatabase, Neo4j database driver
+
+    Methods:
+    - __init__(uri: str, user: str, password: str) -> None: initialize the NostrNeo4j object
+    - close() -> None: close the connection to the Neo4j database
+    - __set_user(user: User) -> None: set the user in the Neo4j database
+    - get_user(pubkey: str) -> User: get the user from the Neo4j database
+    - __add_event_kind_0(event: Event) -> None: add an event of kind 0 to the Neo4j database
+    - add_event(event: Event) -> None: add an event to the Neo4j database
+    """
     
     def __init__(self, uri: str, user: str, password: str) -> None:
         """
@@ -22,12 +36,21 @@ class NostrNeo4j:
         >>> db = NostrNeo4j(uri, user, password)
 
         Returns:
-        - db: NostrNeo4j, NostrNeo4j object
+        - None
+
+        Raises:
+        - TypeError: if uri is not a str
+        - TypeError: if user is not a str
+        - TypeError: if password is not a str
         """
-        assert isinstance(uri, str), f"uri must be a string, not {type(uri)}"
-        assert isinstance(user, str), f"user must be a string, not {type(user)}"
-        assert isinstance(password, str), f"password must be a string, not {type(password)}"
+        if not isinstance(uri, str):
+            raise TypeError(f"uri must be a str, not {type(uri)}")
+        if not isinstance(user, str):
+            raise TypeError(f"user must be a str, not {type(user)}")
+        if not isinstance(password, str):
+            raise TypeError(f"password must be a str, not {type(password)}")
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
+        return
 
     def close(self) -> None:
         """
@@ -35,8 +58,15 @@ class NostrNeo4j:
 
         Example:
         >>> db.close()
+
+        Returns:
+        - None
+
+        Raises:
+        - None
         """
         self.driver.close()
+        return
     
     def __set_user(self, user: User) -> None:
         """
@@ -48,14 +78,22 @@ class NostrNeo4j:
         Example:
         >>> user = User("0x123")
         >>> db.__set_user(user)
+
+        Returns:
+        - None
+
+        Raises:
+        - TypeError: if user is not a User object
         """
-        assert isinstance(user, User), f"user must be a User object, not {type(user)}"
+        if not isinstance(user, User):
+            raise TypeError(f"user must be a User object, not {type(user)}")
         with self.driver.session() as session:
             query = """
             MERGE (u:User {pubkey: $pubkey})
             SET u.pubkey = $pubkey
             """
             session.run(query, pubkey=user.pubkey)
+        return
 
     def get_user(self, pubkey: str) -> User:
         """

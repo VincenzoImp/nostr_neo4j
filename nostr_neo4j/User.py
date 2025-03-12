@@ -8,11 +8,13 @@ class User:
     - pubkey: str, public key of the user
 
     Methods:
-    - __init__: initialize the User object
-    - __repr__: return the representation of the User object
+    - __init__(pubkey: str) -> User: initialize the User object
+    - __repr__() -> str: return the representation of the User object
+    - from_dict(data: dict) -> User: create a User object from a dictionary
+    - to_dict() -> dict: return the User object as a dictionary
     """
 
-    def __init__(self, pubkey: str) -> None:
+    def __init__(self, pubkey: str) -> "User":
         """
         Initialize the User object.
 
@@ -25,14 +27,22 @@ class User:
         User(pubkey="0x123")
 
         Returns:
-        - user: User, user object
+        - User, user object
+
+        Raises:
+        - TypeError: if pubkey is not a str
         """
-        assert isinstance(pubkey, str), f"pubkey must be a string, not {type(pubkey)}"
+        if not isinstance(pubkey, str):
+            raise TypeError(f"pubkey must be a str, not {type(pubkey)}")
         self.pubkey = pubkey
+        return
 
     def __repr__(self) -> str:
         """
         Return the representation of the User object.
+
+        Parameters:
+        - None
 
         Example:
         >>> user = User("0x123")
@@ -41,49 +51,14 @@ class User:
 
         Returns:
         - str, representation of the User object
+
+        Raises:
+        - None
         """
         return f"User(pubkey={self.pubkey})"
     
-    # def __eq__(self, other: 'User') -> bool:
-    #     """
-    #     Check if two User objects are equal.
-
-    #     Parameters:
-    #     - other: User, other User object to compare
-
-    #     Example:
-    #     >>> user1 = User("0x123")
-    #     >>> user2 = User("0x123")
-    #     >>> user1 == user2
-    #     True
-
-    #     Returns:
-    #     - bool, True if the User objects are equal, False otherwise
-    #     """
-    #     assert isinstance(other, User), f"other must be a User object, not {type(other)}"
-    #     return self.pubkey == other.pubkey
-    
-    # def __ne__(self, other: 'User') -> bool:
-    #     """
-    #     Check if two User objects are not equal.
-
-    #     Parameters:
-    #     - other: User, other User object to compare
-
-    #     Example:
-    #     >>> user1 = User("0x123")
-    #     >>> user2 = User("0x456")
-    #     >>> user1 != user2
-    #     True
-
-    #     Returns:
-    #     - bool, True if the User objects are not equal, False otherwise
-    #     """
-    #     assert isinstance(other, User), f"other must be a User object, not {type(other)}"
-    #     return self.pubkey != other.pubkey
-    
     @staticmethod
-    def from_dict(data: dict) -> 'User':
+    def from_dict(data: dict) -> "User":
         """
         Create a User object from a dictionary.
 
@@ -97,14 +72,24 @@ class User:
         User(pubkey="0x123")
 
         Returns:
-        - user: User, user object
+        - User, user object
+
+        Raises:
+        - TypeError: if data is not a dict
+        - ValueError: if data does not have the keys: pubkey
         """
-        assert isinstance(data, dict), f"data must be a dict, not {type(data)}"
+        if not isinstance(data, dict):
+            raise TypeError(f"data must be a dict, not {type(data)}")
+        if set(data.keys()) != {"pubkey"}:
+            raise ValueError(f"data must have the keys: pubkey")
         return User(data["pubkey"])
     
     def to_dict(self) -> dict:
         """
         Return the User object as a dictionary.
+
+        Parameters:
+        - None
 
         Example:
         >>> user = User("0x123")
@@ -113,5 +98,8 @@ class User:
 
         Returns:
         - dict, dictionary representation of the User object
+
+        Raises:
+        - None
         """
         return {"pubkey": self.pubkey}

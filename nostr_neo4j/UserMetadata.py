@@ -9,13 +9,13 @@ class UserMetadata:
     - data: dict, metadata of the user
 
     Methods:
-    - __init__: initialize the UserMetadata object
-    - __repr__: return the representation of the UserMetadata object
-    - from_dict: return a UserMetadata object from a dictionary representation
-    - to_dict: return a dictionary representation of the metadata
+    - __init__(timestamp: int = None, data: dict = None) -> None: initialize the UserMetadata object
+    - __repr__() -> str: return the representation of the UserMetadata object
+    - from_dict(metadata: dict) -> UserMetadata: create a UserMetadata object from a dictionary
+    - to_dict() -> dict: return the UserMetadata object as a dictionary
     """
 
-    def __init__(self, timestamp: int = None, data: dict = None) -> None:
+    def __init__(self, timestamp: int, data: dict) -> "UserMetadata":
         """
         Initialize the UserMetadata object.
 
@@ -25,15 +25,23 @@ class UserMetadata:
 
         Example:
         >>> metadata = UserMetadata(1612137600, {"name": "Alice"})
+
+        Returns:
+        - UserMetadata, UserMetadata object
+
+        Raises:
+        -
         """
-        if timestamp is not None:
-            assert isinstance(timestamp, int), f"timestamp must be an integer, not {type(timestamp)}"
-        if data is not None:
-            assert isinstance(data, dict), f"data must be a dictionary, not {type(data)}"
-            for key in data.keys():
-                assert isinstance(key, str), "Keys in data must be strings"
+        if not isinstance(timestamp, int):
+            raise TypeError(f"timestamp must be an integer, not {type(timestamp)}")
+        if not isinstance(data, dict):
+            raise TypeError(f"data must be a dictionary, not {type(data)}")
+        for key in data.keys():
+            if not isinstance(key, str):
+                raise TypeError("Keys in data must be strings")
         self.timestamp = timestamp
         self.data = data
+        return
 
     def __repr__(self) -> str:
         """
